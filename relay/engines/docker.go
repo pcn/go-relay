@@ -173,9 +173,11 @@ func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
 			Email:         "This is not used here",
 		}
 	} else if de.config.RegistryUser == "" || de.config.RegistryPassword == "" || de.config.RegistryEmail == "" {
+		log.Errorf("No user or password provided")
 		return nil
 	}
 	return &types.AuthConfig{
+		log.Errorf("User and password provided")
 		ServerAddress: de.config.RegistryHost,
 		Username:      de.config.RegistryUser,
 		Password:      de.config.RegistryPassword,
