@@ -29,7 +29,7 @@ tools: $(GOVENDOR_BIN) $(GOLINT_BIN)
 $(BUILD_DIR)/$(EXENAME): $(BUILD_DIR) $(SOURCES) tools deps
 	@rm -f `find . -name "*flymake*.go"`
 	@rm -rf relay_*_amd64
-	go build -ldflags "$(LINK_VARS)" -o $@ github.com/operable/go-relay
+	go build -ldflags "$(LINK_VARS)" -o $@ github.com/pcn/go-relay
 
 lint: tools
 	@for pkg in $(FULL_PKGS); do $(GOLINT_BIN) $$pkg; done
