@@ -12,6 +12,8 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	"github.com/operable/circuit"
 	"github.com/operable/go-relay/relay/config"
+	"github.com/awslabs/amazon-ecr-credential-helper/ecr-login/api"
+	"github.com/awslabs/amazon-ecr-credential-helper/ecr-login"
 	"golang.org/x/net/context"
 	"io/ioutil"
 	"os"
@@ -68,6 +70,7 @@ func (de *DockerEngine) IsAvailable(name string, meta string) (bool, error) {
 	}
 	log.Debugf("Retrieving %s from upstream Docker registry.", fullName)
 	beforeID, _ := de.IDForName(name, meta)
+	log.Errorf("beforeID %s, fullName: %s.", beforeID, fullName)
 	pullErr := de.pullImage(fullName)
 	if pullErr != nil {
 		log.Errorf("Error ocurred pulling image %s: %s.", name, pullErr)
@@ -156,9 +159,27 @@ func (de *DockerEngine) removeContainer(id string) error {
 }
 
 func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
-	if de.config.RegistryUser == "" || de.config.RegistryPassword == "" || de.config.RegistryEmail == "" {
+	if de.config.RegistryCredHelper != "" {
+		helper := ecr.ECRHelper{ClientFactory: api.DefaultClientFactory{}}
+		helper_user, helper_pass, err := helper.Get(de.config.RegistryHost)
+		if err != nil {
+			log.Errorf("Couldn't get a username and password from ECRHelper: %s", err)
+			return nil
+		}
+		log.Errorf("Obtained username and password from ECRHelper: %s : %s", helper_user, helper_pass)
+		log.Errorf("RegistryHost is %s", de.config.RegistryHost)
+		return &types.AuthConfig{
+			ServerAddress: de.config.RegistryHost,
+			Username:      helper_user,
+			Password:      helper_pass,
+			Email:         "This is not used here",
+		}
+	} else if de.config.RegistryUser == "" || de.config.RegistryPassword == "" || de.config.RegistryEmail == "" {
+		log.Errorf("No user or password provided")
 		return nil
 	}
+	log.Errorf("User and password provided")
+
 	return &types.AuthConfig{
 		ServerAddress: de.config.RegistryHost,
 		Username:      de.config.RegistryUser,
