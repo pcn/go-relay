@@ -12,6 +12,7 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	"github.com/operable/circuit"
 	"github.com/operable/go-relay/relay/config"
+	"github.com/awslabs/amazon-ecr-credential-helper/ecr-login/api"
 	"github.com/awslabs/amazon-ecr-credential-helper/ecr-login"
 	"golang.org/x/net/context"
 	"io/ioutil"
