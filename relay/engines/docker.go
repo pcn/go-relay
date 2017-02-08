@@ -160,8 +160,7 @@ func (de *DockerEngine) removeContainer(id string) error {
 func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
 	if de.config.RegistryCredHelper != "" {
 		helper := ecr.ECRHelper{ClientFactory: api.DefaultClientFactory{}}
-		serverAddress := "209556801791.dkr.ecr.us-east-1.amazonaws.com/stagevpc-cycorg-salt"
-		helper_user, helper_pass, err := helper.Get(serverAddress)
+		helper_user, helper_pass, err := helper.Get(de.config.RegistryHost)
 		log.Errorf("Obtained username and password: %s : %s (or error: %s", helper_user, helper_pass, err)
 		if err != nil {
 			return nil
