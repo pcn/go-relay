@@ -162,6 +162,7 @@ func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
 		helper := ecr.ECRHelper{ClientFactory: api.DefaultClientFactory{}}
 		serverAddress := "209556801791.dkr.ecr.us-east-1.amazonaws.com/stagevpc-cycorg-salt"
 		helper_user, helper_pass, err := helper.Get(serverAddress)
+		log.Errorf("Obtained username and password: %s : %s (or error: %s", helper_user, helper_pass, err)
 		if err != nil {
 			return nil
 		}
