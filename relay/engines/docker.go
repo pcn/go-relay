@@ -176,8 +176,9 @@ func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
 		log.Errorf("No user or password provided")
 		return nil
 	}
+	log.Errorf("User and password provided")
+
 	return &types.AuthConfig{
-		log.Errorf("User and password provided")
 		ServerAddress: de.config.RegistryHost,
 		Username:      de.config.RegistryUser,
 		Password:      de.config.RegistryPassword,
