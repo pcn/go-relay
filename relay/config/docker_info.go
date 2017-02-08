@@ -18,6 +18,8 @@ type DockerInfo struct {
 	RegistryUser         string `yaml:"registry_user" env:"RELAY_DOCKER_REGISTRY_USER" valid:"-"`
 	RegistryEmail        string `yaml:"registry_email" env:"RELAY_DOCKER_REGISTRY_EMAIL" valid:"-"`
 	RegistryPassword     string `yaml:"registry_password" env:"RELAY_DOCKER_REGISTRY_PASSWORD" valid:"-"`
+	RegistryCredHelper   string `yaml:"registry_cred_helper" env:"RELAY_DOCKER_REGISTRY_CREDHELPER" valid:"-"`
+
 }
 
 // CleanDuration returns CleanInterval as a time.Duration

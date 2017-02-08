@@ -12,6 +12,7 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	"github.com/operable/circuit"
 	"github.com/operable/go-relay/relay/config"
+	"github.com/awslabs/amazon-ecr-credential-helper/ecr-login"
 	"golang.org/x/net/context"
 	"io/ioutil"
 	"os"
@@ -156,7 +157,16 @@ func (de *DockerEngine) removeContainer(id string) error {
 }
 
 func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
-	if de.config.RegistryUser == "" || de.config.RegistryPassword == "" || de.config.RegistryEmail == "" {
+	if de.config.RegistryCredHelper != "" {
+		serverAddress := "209556801791.dkr.ecr.us-east-1.amazonaws.com/stagevpc-cycorg-salt"
+		helper_user, helper_pass, err := ecr.Get(serverAddress)
+		return &types.AuthConfig{
+			ServerAddress: de.config.RegistryHost,
+			Username:      helper_user,
+			Password:      helper_pass,
+			Email:         "This is not used here",
+		}
+	} else if de.config.RegistryUser == "" || de.config.RegistryPassword == "" || de.config.RegistryEmail == "" {
 		return nil
 	}
 	return &types.AuthConfig{
