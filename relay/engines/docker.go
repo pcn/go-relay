@@ -70,6 +70,7 @@ func (de *DockerEngine) IsAvailable(name string, meta string) (bool, error) {
 	}
 	log.Debugf("Retrieving %s from upstream Docker registry.", fullName)
 	beforeID, _ := de.IDForName(name, meta)
+	log.Errorf("beforeID %s.", beforeID)
 	pullErr := de.pullImage(fullName)
 	if pullErr != nil {
 		log.Errorf("Error ocurred pulling image %s: %s.", name, pullErr)
