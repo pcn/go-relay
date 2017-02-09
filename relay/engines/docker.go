@@ -161,10 +161,12 @@ func (de *DockerEngine) makeAuthConfig() *types.AuthConfig {
 	if de.config.RegistryCredHelper != "" {
 		helper := ecr.ECRHelper{ClientFactory: api.DefaultClientFactory{}}
 		helper_user, helper_pass, err := helper.Get(de.config.RegistryHost)
-		log.Errorf("Obtained username and password: %s : %s (or error: %s", helper_user, helper_pass, err)
 		if err != nil {
+			log.Errorf("Couldn't get a username and password from ECRHelper: %s", err)
 			return nil
 		}
+		log.Errorf("Obtained username and password from ECRHelper: %s : %s", helper_user, helper_pass)
+		log.Errorf("RegistryHost is %s", de.config.RegistryHost)
 		return &types.AuthConfig{
 			ServerAddress: de.config.RegistryHost,
 			Username:      helper_user,
