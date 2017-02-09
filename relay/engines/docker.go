@@ -198,7 +198,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 		RemoveVolumes: true,
 		Force:         true,
 	})
-	avail, err := de.IsAvailable("operable/circuit-driver", de.config.CommandDriverVersion)
+	avail, err := de.IsAvailable("209556801791.dkr.ecr.us-east-1.amazonaws.com/operable/circuit-driver", de.config.CommandDriverVersion)
 	if err != nil {
 		return err
 	}
