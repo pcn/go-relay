@@ -10,19 +10,20 @@ RUN mkdir -p /var/operable/relay
 
 RUN mkdir -p /root/golang/src/github.com/operable/ && \
   cd /root/golang/src/github.com/operable && \
-  apk add -U --no-cache git go make ca-certificates && \
+  apk add -U --no-cache git bash go make ca-certificates && \
   git clone https://github.com/pcn/go-relay
 
 RUN cd /root/golang/src/github.com/operable/go-relay && \
   git pull && git checkout $GIT_COMMIT
-
-RUN apk add -U --no-cache bash
 
 RUN cd /root/golang/src/github.com && mkdir awslabs && \
     cd awslabs && git clone https://github.com/awslabs/amazon-ecr-credential-helper && \
     cd amazon-ecr-credential-helper && \
     env GOPATH=/root/golang make
 
+# This could be nicer.  "make" works up to a point, but fails trying
+# to do tests or something; after that just calling "go build" will
+# finish the job
 RUN cd /root/golang/src/github.com/operable/go-relay && \
   env GOPATH=/root/golang make ; env GOPATH=/root/golang go build
 
