@@ -199,7 +199,12 @@ func (de *DockerEngine) createCircuitDriver() error {
 		RemoveVolumes: true,
 		Force:         true,
 	})
-	avail, err := de.IsAvailable("209556801791.dkr.ecr.us-east-1.amazonaws.com/operable/circuit-driver", de.config.CommandDriverVersion)
+	avail := false
+	if de.config.RegistryHost != "" {
+		avail, err = de.IsAvailable(fmt.Sprintf("%s/operable/circuit-driver", de.config.RegistryHost), de.config.CommandDriverVersion)
+	} else {
+		avail, err = de.IsAvailable("operable/circuit-driver", de.config.CommandDriverVersion)
+	}
 	if err != nil {
 		return err
 	}
@@ -210,7 +215,12 @@ func (de *DockerEngine) createCircuitDriver() error {
 	hostConfig := container.HostConfig{
 		Privileged: false,
 	}
-	fullName := fmt.Sprintf("209556801791.dkr.ecr.us-east-1.amazonaws.com/operable/circuit-driver:%s", de.config.CommandDriverVersion)
+	fullName := ""
+	if de.config.RegistryHost != "" {
+		fullName = fmt.Sprintf("%s/operable/circuit-driver:%s", de.config.RegistryHost, de.config.CommandDriverVersion)
+	} else {
+		fullName = fmt.Sprintf("209556801791.dkr.ecr.us-east-1.amazonaws.com/operable/circuit-driver:%s", de.config.CommandDriverVersion)
+	}
 	hostConfig.Memory = int64(4 * megabyte)
 	config := container.Config{
 		Image:     fullName,
