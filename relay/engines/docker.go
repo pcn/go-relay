@@ -232,7 +232,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 			relayCreatedLabel: "yes",
 		},
 	}
-	_, err = de.client.ContainerCreate(context.Background(), &config, &hostConfig, nil, "209556801791.dkr.ecr.us-east-1.amazonaws.com/cog-circuit-driver")
+	_, err = de.client.ContainerCreate(context.Background(), &config, &hostConfig, nil, "cog-circuit-driver")
 	if err != nil {
 		log.Errorf("Creation of required command driver container failed: %s.", err)
 		return err
@@ -309,7 +309,7 @@ func (de *DockerEngine) needsUpdate(name, meta string) bool {
 		image, _, _ := de.client.ImageInspectWithRaw(context.Background(), fullName)
 		if image.ID != "" {
 			// Override when DevMode is enabled
-			if name != "operable/circuit-driver" && de.relayConfig.DevMode == true {
+			if strings.Contains(name, "operable/circuit-driver") && de.relayConfig.DevMode == true {
 				log.Warnf("Developer mode: Marked %s stale even though local image %s exists.",
 					fullName, shortImageID(image.ID))
 				return true
