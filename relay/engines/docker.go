@@ -216,11 +216,11 @@ func (de *DockerEngine) createCircuitDriver() error {
 		Privileged: false,
 	}
 	fullName := ""
-	if de.config.RegistryHost != "" {
-		fullName = fmt.Sprintf("%s/operable/circuit-driver:%s", de.config.RegistryHost, de.config.CommandDriverVersion)
-	} else {
+	// if de.config.RegistryHost != "" {
+	//	fullName = fmt.Sprintf("%s/operable/circuit-driver:%s", de.config.RegistryHost, de.config.CommandDriverVersion)
+	//} else {
 		fullName = fmt.Sprintf("operable/circuit-driver:%s", de.config.CommandDriverVersion)
-	}
+	//}
 	hostConfig.Memory = int64(4 * megabyte)
 	config := container.Config{
 		Image:     fullName,
