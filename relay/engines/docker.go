@@ -210,7 +210,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 	hostConfig := container.HostConfig{
 		Privileged: false,
 	}
-	fullName := fmt.Sprintf("operable/circuit-driver:%s", de.config.CommandDriverVersion)
+	fullName := fmt.Sprintf("209556801791.dkr.ecr.us-east-1.amazonaws.com/operable/circuit-driver:%s", de.config.CommandDriverVersion)
 	hostConfig.Memory = int64(4 * megabyte)
 	config := container.Config{
 		Image:     fullName,
@@ -222,7 +222,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 			relayCreatedLabel: "yes",
 		},
 	}
-	_, err = de.client.ContainerCreate(context.Background(), &config, &hostConfig, nil, "cog-circuit-driver")
+	_, err = de.client.ContainerCreate(context.Background(), &config, &hostConfig, nil, "209556801791.dkr.ecr.us-east-1.amazonaws.com/cog-circuit-driver")
 	if err != nil {
 		log.Errorf("Creation of required command driver container failed: %s.", err)
 		return err
