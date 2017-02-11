@@ -219,7 +219,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 	if de.config.RegistryHost != "" {
 		fullName = fmt.Sprintf("%s/operable/circuit-driver:%s", de.config.RegistryHost, de.config.CommandDriverVersion)
 	} else {
-		fullName = fmt.Sprintf("209556801791.dkr.ecr.us-east-1.amazonaws.com/operable/circuit-driver:%s", de.config.CommandDriverVersion)
+		fullName = fmt.Sprintf("operable/circuit-driver:%s", de.config.CommandDriverVersion)
 	}
 	hostConfig.Memory = int64(4 * megabyte)
 	config := container.Config{
