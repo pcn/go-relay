@@ -1,0 +1,35 @@
+FROM alpine:3.4
+
+MAINTAINER Peter Norton <pcn@librato.com>
+
+ARG GIT_COMMIT
+ENV GIT_COMMIT ${GIT_COMMIT:-authentication-against-ECR-works}
+
+# Bake in a directory that we can use for logging, config, etc.
+RUN mkdir -p /var/operable/relay
+
+RUN mkdir -p /root/golang/src/github.com/operable/ && \
+  cd /root/golang/src/github.com/operable && \
+  apk add -U --no-cache git go make ca-certificates && \
+  git clone https://github.com/pcn/go-relay
+
+RUN cd /root/golang/src/github.com/operable/go-relay && \
+  git pull && git checkout $GIT_COMMIT
+
+RUN apk add -U --no-cache bash
+
+RUN cd /root/golang/src/github.com && mkdir awslabs && \
+    cd awslabs && git clone https://github.com/awslabs/amazon-ecr-credential-helper && \
+    cd amazon-ecr-credential-helper && \
+    env GOPATH=/root/golang make
+
+RUN cd /root/golang/src/github.com/operable/go-relay && \
+  env GOPATH=/root/golang make ; env GOPATH=/root/golang go build
+
+RUN cd /root/golang/src/github.com/operable/go-relay && \
+  mkdir -p /usr/local/bin && \
+  cp go-relay /usr/local/bin/relay && \
+  mkdir -p /usr/local/etc && \
+  cp docker/relay.conf /usr/local/etc/relay.conf && \
+  cd /root && rm -rf golang && \
+  apk del --force --rdepends --purge go make git && rm -rf /var/cache/apk/*
