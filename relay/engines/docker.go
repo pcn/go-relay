@@ -200,10 +200,10 @@ func (de *DockerEngine) createCircuitDriver() error {
 		Force:         true,
 	})
 	// avail := false
-	if de.config.RegistryHost != "" {
-		avail, err = de.IsAvailable(fmt.Sprintf("%s/operable/circuit-driver", de.config.RegistryHost), de.config.CommandDriverVersion)
-	} else {
-		avail, err = de.IsAvailable("operable/circuit-driver", de.config.CommandDriverVersion)
+	// if de.config.RegistryHost != "" {
+	// 	avail, err = de.IsAvailable(fmt.Sprintf("%s/operable/circuit-driver", de.config.RegistryHost), de.config.CommandDriverVersion)
+	// } else {
+	// 	avail, err = de.IsAvailable("operable/circuit-driver", de.config.CommandDriverVersion)
 	}
 	// if err != nil {
 	// 	return err
