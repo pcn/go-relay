@@ -199,7 +199,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 		RemoveVolumes: true,
 		Force:         true,
 	})
-	avail := false
+	// avail := false
 	if de.config.RegistryHost != "" {
 		avail, err = de.IsAvailable(fmt.Sprintf("%s/operable/circuit-driver", de.config.RegistryHost), de.config.CommandDriverVersion)
 	} else {
