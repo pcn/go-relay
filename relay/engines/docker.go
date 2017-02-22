@@ -205,11 +205,11 @@ func (de *DockerEngine) createCircuitDriver() error {
 	} else {
 		avail, err = de.IsAvailable("operable/circuit-driver", de.config.CommandDriverVersion)
 	}
-	if err != nil {
-		return err
-	}
-	if avail == false {
-		return errorDriverImageUnavailable
+	// if err != nil {
+	// 	return err
+	// }
+	// if avail == false {
+	// 	return errorDriverImageUnavailable
 	}
 
 	hostConfig := container.HostConfig{
@@ -217,10 +217,10 @@ func (de *DockerEngine) createCircuitDriver() error {
 	}
 	fullName := ""
 	// if de.config.RegistryHost != "" {
-	//	fullName = fmt.Sprintf("%s/operable/circuit-driver:%s", de.config.RegistryHost, de.config.CommandDriverVersion)
-	//} else {
-		fullName = fmt.Sprintf("operable/circuit-driver:%s", de.config.CommandDriverVersion)
-	//}
+		fullName = fmt.Sprintf("%s/operable/circuit-driver:%s", de.config.RegistryHost, de.config.CommandDriverVersion)
+	// } else {
+	// 	fullName = fmt.Sprintf("operable/circuit-driver:%s", de.config.CommandDriverVersion)
+	// }
 	hostConfig.Memory = int64(4 * megabyte)
 	config := container.Config{
 		Image:     fullName,
@@ -233,11 +233,11 @@ func (de *DockerEngine) createCircuitDriver() error {
 		},
 	}
 	_, err = de.client.ContainerCreate(context.Background(), &config, &hostConfig, nil, "cog-circuit-driver")
-	if err != nil {
-		log.Errorf("Creation of required command driver container failed: %s.", err)
-		return err
-	}
-	log.Info("Created required command driver container.")
+	// if err != nil {
+	// 	log.Errorf("Creation of required command driver container failed: %s.", err)
+	// 	return err
+	// }
+	// log.Info("Created required command driver container.")
 	return nil
 }
 
