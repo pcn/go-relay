@@ -204,7 +204,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 	// 	avail, err = de.IsAvailable(fmt.Sprintf("%s/operable/circuit-driver", de.config.RegistryHost), de.config.CommandDriverVersion)
 	// } else {
 	// 	avail, err = de.IsAvailable("operable/circuit-driver", de.config.CommandDriverVersion)
-	}
+	// }
 	// if err != nil {
 	// 	return err
 	// }
@@ -212,7 +212,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 	// 	return errorDriverImageUnavailable
 	// }
 
-	hostConfig := container.HostConfig{
+	hostConfig := container.HostConfig {
 		Privileged: false,
 	}
 	fullName := ""
