@@ -210,7 +210,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 	// }
 	// if avail == false {
 	// 	return errorDriverImageUnavailable
-	}
+	// }
 
 	hostConfig := container.HostConfig{
 		Privileged: false,
