@@ -238,6 +238,7 @@ func (de *DockerEngine) createCircuitDriver() error {
 	// 	return err
 	// }
 	// log.Info("Created required command driver container.")
+	log.Info("Not creating command driver container.")
 	return nil
 }
 
