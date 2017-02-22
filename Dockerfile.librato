@@ -23,7 +23,7 @@ RUN mkdir -p /root/golang/src/github.com/operable/ && \
 # to do tests or something; after that just calling "go build" will
 # finish the job
 RUN cd /root/golang/src/github.com/operable/go-relay && \
-  env GOPATH=/root/golang make ; true
+  env GOPATH=/root/golang make ;  true
 
 RUN cd /root/golang/src/github.com/operable/go-relay && \
   git pull && env GOPATH=/root/golang go build && /bin/true
